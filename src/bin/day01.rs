@@ -1,3 +1,4 @@
+#![feature(test)]
 use int_enum::IntEnum;
 use itertools::Itertools;
 use strum::{Display, EnumIter, EnumString, IntoEnumIterator};
@@ -55,7 +56,6 @@ fn part2(lines: &[String]) -> u32 {
             if let (pos, Some(digit)) = last_str_digit {
                 line.insert_str(pos + 1, digit.int_value().to_string().as_str());
             }
-            println!("{line}");
             line
         })
         .collect_vec();
@@ -97,5 +97,20 @@ mod test {
         "};
         let expected = 281;
         assert_eq!(part2(&input), expected);
+    }
+
+    extern crate test;
+    use test::test::Bencher;
+
+    #[bench]
+    fn bench_part1(b: &mut Bencher) {
+        let lines = utils::get_day_input!();
+        b.iter(|| part1(&lines));
+    }
+
+    #[bench]
+    fn bench_part2(b: &mut Bencher) {
+        let lines = utils::get_day_input!();
+        b.iter(|| part2(&lines));
     }
 }

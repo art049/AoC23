@@ -1,3 +1,5 @@
+#![feature(test)]
+
 fn part1(lines: &Vec<String>) -> u64 {
     0
 }
@@ -32,5 +34,20 @@ mod test {
         "};
         let expected = 0;
         assert_eq!(part2(&input), expected);
+    }
+
+    extern crate test;
+    use test::test::Bencher;
+
+    #[bench]
+    fn bench_part1(b: &mut Bencher) {
+        let lines = utils::get_day_input!();
+        b.iter(|| part1(&lines));
+    }
+
+    #[bench]
+    fn bench_part2(b: &mut Bencher) {
+        let lines = utils::get_day_input!();
+        b.iter(|| part2(&lines));
     }
 }
