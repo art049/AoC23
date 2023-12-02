@@ -1,10 +1,10 @@
 #![feature(test)]
 
-fn part1(lines: &Vec<String>) -> u64 {
+fn part1(lines: &[String]) -> u64 {
     0
 }
 
-fn part2(lines: &Vec<String>) -> u64 {
+fn part2(lines: &[String]) -> u64 {
     0
 }
 
