@@ -8,6 +8,6 @@ source .env
 
 mkdir -p inputs puzzles
 aoc download --input-file inputs/day$DAY.txt --puzzle-file puzzles/day$DAY.md --overwrite
-cp -n template.rs src/bin/day$DAY.rs
+cp -n template.rs src/day$DAY.rs
 
 code puzzles/day$DAY.md src/bin/day$DAY.rs inputs/day$DAY.txt

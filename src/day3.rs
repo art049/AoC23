@@ -1,6 +1,3 @@
-#![feature(test)]
-
-
 use std::{collections::HashSet, iter::once};
 
 use itertools::Itertools;
@@ -20,7 +17,8 @@ struct Number {
     col_end: usize,
 }
 
-fn parse_input(lines: &[String]) -> (Vec<Symbol>, Vec<Number>) {
+fn parse_input(input: &str) -> (Vec<Symbol>, Vec<Number>) {
+    let lines = input.lines().collect_vec();
     // Ordered by (line, col)
     let mut numbers = vec![];
     let mut symbols = vec![];
@@ -66,8 +64,8 @@ fn is_symbol_close_to_number(symbol: &Symbol, number: &Number) -> bool {
 }
 
 // Complexity: O(n^2)
-fn part1(lines: &[String]) -> u64 {
-    let (symbols, numbers) = parse_input(lines);
+pub fn part1(input: &str) -> u64 {
+    let (symbols, numbers) = parse_input(input);
     let mut part_number_idxs = HashSet::new();
     for symbol in symbols.iter() {
         let new_parts_idx = numbers
@@ -81,8 +79,8 @@ fn part1(lines: &[String]) -> u64 {
 }
 
 // Complexity: O(n^2)
-fn part2(lines: &[String]) -> u64 {
-    let (symbols, numbers) = parse_input(lines);
+pub fn part2(input: &str) -> u64 {
+    let (symbols, numbers) = parse_input(input);
     let gears = symbols.iter().filter(|s| s.value == '*');
     let mut gear_ratio_sum = 0;
     for gear in gears {
@@ -100,7 +98,7 @@ fn part2(lines: &[String]) -> u64 {
 }
 
 fn main() {
-    let lines = utils::get_day_input!();
+    let lines = crate::utils::get_day_input!();
     println!("Part 1: {}", part1(&lines));
     println!("Part 2: {}", part2(&lines));
 }
@@ -111,7 +109,7 @@ mod test {
 
     #[test]
     fn test_part1() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
         467..114..
         ...*......
         ..35..633.
@@ -129,7 +127,7 @@ mod test {
 
     #[test]
     fn test_part2() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
         467..114..
         ...*......
         ..35..633.
@@ -150,13 +148,13 @@ mod test {
 
     #[bench]
     fn bench_part1(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part1(&lines));
     }
 
     #[bench]
     fn bench_part2(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part2(&lines));
     }
 }

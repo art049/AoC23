@@ -1,9 +1,9 @@
-#![feature(test)]
 use int_enum::IntEnum;
 use itertools::Itertools;
 use strum::{Display, EnumIter, EnumString, IntoEnumIterator};
 
-fn part1(lines: &[String]) -> u32 {
+pub fn part1(input: &str) -> u32 {
+    let lines: Vec<&str> = input.lines().collect();
     lines
         .iter()
         .map(|l| {
@@ -31,11 +31,12 @@ enum Digit {
     Nine = 9,
 }
 
-fn part2(lines: &[String]) -> u32 {
+pub fn part2(input: &str) -> u32 {
+    let mut lines: Vec<&str> = input.lines().collect();
     let lines = lines
         .iter()
         .map(|line| {
-            let mut line = line.clone();
+            let mut line = line.to_string();
             let mut first_str_digit = (line.len(), None);
             let mut last_str_digit = (0, None);
             for digit in Digit::iter() {
@@ -59,11 +60,11 @@ fn part2(lines: &[String]) -> u32 {
             line
         })
         .collect_vec();
-    part1(&lines)
+    part1(&lines.join("\n"))
 }
 
 fn main() {
-    let lines = utils::get_day_input!();
+    let lines = crate::utils::get_day_input!();
     println!("Part 1: {}", part1(&lines));
     println!("Part 2: {}", part2(&lines));
 }
@@ -74,7 +75,7 @@ mod test {
 
     #[test]
     fn test_part1() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
             1abc2
             pqr3stu8vwx
             a1b2c3d4e5f
@@ -86,7 +87,7 @@ mod test {
 
     #[test]
     fn test_part2() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
             two1nine
             eightwothree
             abcone2threexyz
@@ -104,13 +105,13 @@ mod test {
 
     #[bench]
     fn bench_part1(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part1(&lines));
     }
 
     #[bench]
     fn bench_part2(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part2(&lines));
     }
 }

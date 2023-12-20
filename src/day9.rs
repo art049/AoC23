@@ -1,10 +1,9 @@
-#![feature(test)]
-
 use std::iter;
 
 use itertools::Itertools;
 
-fn parse_input(lines: &[String]) -> Vec<Vec<i32>> {
+fn parse_input(input: &str) -> Vec<Vec<i32>> {
+    let lines = input.lines().collect_vec();
     lines
         .iter()
         .map(|line| {
@@ -53,13 +52,13 @@ fn extrapolate(input: &Vec<i32>) -> i32 {
     *seq.last().unwrap()
 }
 
-fn part1(lines: &[String]) -> i32 {
-    let sequences = parse_input(lines);
+pub fn part1(input: &str) -> i32 {
+    let sequences = parse_input(input);
     sequences.iter().map(extrapolate).sum()
 }
 
-fn part2(lines: &[String]) -> i32 {
-    let mut sequences = parse_input(lines);
+pub fn part2(input: &str) -> i32 {
+    let mut sequences = parse_input(input);
     for sequence in sequences.iter_mut() {
         sequence.reverse();
     }
@@ -67,7 +66,7 @@ fn part2(lines: &[String]) -> i32 {
 }
 
 fn main() {
-    let lines = utils::get_day_input!();
+    let lines = crate::utils::get_day_input!();
     println!("Part 1: {}", part1(&lines));
     println!("Part 2: {}", part2(&lines));
 }
@@ -78,7 +77,7 @@ mod test {
 
     #[test]
     fn test_part1() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
         0 3 6 9 12 15
         1 3 6 10 15 21
         10 13 16 21 30 45
@@ -89,7 +88,7 @@ mod test {
 
     #[test]
     fn test_part2() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
         0 3 6 9 12 15
         1 3 6 10 15 21
         10 13 16 21 30 45
@@ -103,13 +102,13 @@ mod test {
 
     #[bench]
     fn bench_part1(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part1(&lines));
     }
 
     #[bench]
     fn bench_part2(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part2(&lines));
     }
 }

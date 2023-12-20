@@ -1,5 +1,3 @@
-#![feature(test)]
-
 use int_enum::IntEnum;
 use itertools::Itertools;
 use strum::EnumString;
@@ -97,7 +95,8 @@ impl Ord for HandWithCombination {
     }
 }
 
-fn parse_input(lines: &[String]) -> Vec<(Hand, u64)> {
+fn parse_input(input: &str) -> Vec<(Hand, u64)> {
+    let lines = input.lines().collect_vec();
     lines
         .iter()
         .map(|line| {
@@ -111,8 +110,8 @@ fn parse_input(lines: &[String]) -> Vec<(Hand, u64)> {
         .collect()
 }
 
-fn part1(lines: &[String]) -> u64 {
-    let mut hands_with_bid = parse_input(lines)
+pub fn part1(input: &str) -> u64 {
+    let mut hands_with_bid = parse_input(input)
         .into_iter()
         .map(|(hand, bid)| (HandWithCombination::from(hand), bid))
         .collect_vec();
@@ -160,8 +159,8 @@ impl HandWithCombination {
     }
 }
 
-fn part2(lines: &[String]) -> u64 {
-    let mut hands_with_bid = parse_input(lines)
+pub fn part2(input: &str) -> u64 {
+    let mut hands_with_bid = parse_input(input)
         .into_iter()
         .map(|(hand, bid)| {
             (
@@ -185,7 +184,7 @@ fn part2(lines: &[String]) -> u64 {
 }
 
 fn main() {
-    let lines = utils::get_day_input!();
+    let lines = crate::utils::get_day_input!();
     println!("Part 1: {}", part1(&lines));
     println!("Part 2: {}", part2(&lines));
 }
@@ -196,7 +195,7 @@ mod test {
 
     #[test]
     fn test_part1() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
         32T3K 765
         T55J5 684
         KK677 28
@@ -209,7 +208,7 @@ mod test {
 
     #[test]
     fn test_part2() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
         32T3K 765
         T55J5 684
         KK677 28
@@ -225,13 +224,13 @@ mod test {
 
     #[bench]
     fn bench_part1(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part1(&lines));
     }
 
     #[bench]
     fn bench_part2(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part2(&lines));
     }
 }

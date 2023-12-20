@@ -1,5 +1,3 @@
-#![feature(test)]
-
 use std::collections::HashSet;
 
 use itertools::Itertools;
@@ -42,7 +40,8 @@ impl From<String> for Card {
     }
 }
 
-fn part1(lines: &[String]) -> u64 {
+pub fn part1(input: &str) -> u64 {
+    let lines = input.lines().collect_vec();
     lines
         .iter()
         .map(|l| Card::from(l.to_string()))
@@ -56,7 +55,8 @@ fn part1(lines: &[String]) -> u64 {
         .sum()
 }
 
-fn part2(lines: &[String]) -> u64 {
+pub fn part2(input: &str) -> u64 {
+    let lines = input.lines().collect_vec();
     let cards = lines
         .iter()
         .map(|l| Card::from(l.to_string()))
@@ -72,7 +72,7 @@ fn part2(lines: &[String]) -> u64 {
 }
 
 fn main() {
-    let lines = utils::get_day_input!();
+    let lines = crate::utils::get_day_input!();
     println!("Part 1: {}", part1(&lines));
     println!("Part 2: {}", part2(&lines));
 }
@@ -83,7 +83,7 @@ mod test {
 
     #[test]
     fn test_part1() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
             Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
             Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
             Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
@@ -97,7 +97,7 @@ mod test {
 
     #[test]
     fn test_part2() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
             Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
             Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
             Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
@@ -114,13 +114,13 @@ mod test {
 
     #[bench]
     fn bench_part1(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part1(&lines));
     }
 
     #[bench]
     fn bench_part2(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part2(&lines));
     }
 }

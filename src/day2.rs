@@ -1,5 +1,3 @@
-#![feature(test)]
-
 use itertools::{max, Itertools};
 use parse_display::{Display, FromStr};
 
@@ -41,25 +39,30 @@ enum GameCubes {
     Green(u64),
 }
 
-fn parse_games(lines: &[String]) -> impl Iterator<Item = Game> + '_ {
-    lines.iter().map(|line| {
-        let (game_str, sets_str) = line.split_once(": ").unwrap();
-        let id: u64 = game_str.strip_prefix("Game ").unwrap().parse().unwrap();
-        let sets = sets_str
-            .split("; ")
-            .map(|set| {
-                let cubes: Vec<GameCubes> =
-                    set.split(", ").map(|cube| cube.parse().unwrap()).collect();
-                cubes.into_iter().collect::<GameCubeSet>()
-            })
-            .collect_vec();
-        Game { id, sets }
-    })
+fn parse_games(lines: Vec<&str>) -> impl IntoIterator<Item = Game> + '_ {
+    lines
+        .iter()
+        .map(|line| {
+            let (game_str, sets_str) = line.split_once(": ").unwrap();
+            let id: u64 = game_str.strip_prefix("Game ").unwrap().parse().unwrap();
+            let sets = sets_str
+                .split("; ")
+                .map(|set| {
+                    let cubes: Vec<GameCubes> =
+                        set.split(", ").map(|cube| cube.parse().unwrap()).collect();
+                    cubes.into_iter().collect::<GameCubeSet>()
+                })
+                .collect_vec();
+            Game { id, sets }
+        })
+        .collect_vec()
 }
 
-fn part1(lines: &[String]) -> u64 {
+pub fn part1(input: &str) -> u64 {
+    let lines: Vec<&str> = input.lines().collect();
     let games = parse_games(lines);
     games
+        .into_iter()
         .filter(|game| {
             game.sets.iter().all(|set| {
                 const MAX_RED: u64 = 12;
@@ -71,9 +74,10 @@ fn part1(lines: &[String]) -> u64 {
         .fold(0, |acc, game| acc + game.id)
 }
 
-fn part2(lines: &[String]) -> u64 {
+pub fn part2(input: &str) -> u64 {
+    let lines: Vec<&str> = input.lines().collect();
     let games = parse_games(lines);
-    let larger_cubesets = games.map(|game| GameCubeSet {
+    let larger_cubesets = games.into_iter().map(|game| GameCubeSet {
         blue: max(game.sets.iter().map(|set| set.blue)).unwrap_or(0),
         red: max(game.sets.iter().map(|set| set.red)).unwrap_or(0),
         green: max(game.sets.iter().map(|set| set.green)).unwrap_or(0),
@@ -83,7 +87,7 @@ fn part2(lines: &[String]) -> u64 {
 }
 
 fn main() {
-    let lines = utils::get_day_input!();
+    let lines = crate::utils::get_day_input!();
     println!("Part 1: {}", part1(&lines));
     println!("Part 2: {}", part2(&lines));
 }
@@ -94,7 +98,7 @@ mod test {
 
     #[test]
     fn test_part1() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
         Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
         Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
         Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
@@ -107,7 +111,7 @@ mod test {
 
     #[test]
     fn test_part2() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
         Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
         Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
         Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
@@ -123,13 +127,13 @@ mod test {
 
     #[bench]
     fn bench_part1(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part1(&lines));
     }
 
     #[bench]
     fn bench_part2(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part2(&lines));
     }
 }

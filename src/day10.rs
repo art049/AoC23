@@ -1,6 +1,4 @@
-#![feature(test)]
-
-use std::collections::{HashSet, VecDeque};
+use std::collections::HashSet;
 
 use itertools::iproduct;
 use parse_display::FromStr;
@@ -58,7 +56,8 @@ impl Tile {
     }
 }
 
-fn parse_input(lines: &[String]) -> Vec<Vec<Tile>> {
+fn parse_input(input: &str) -> Vec<Vec<Tile>> {
+    let lines: Vec<String> = input.lines().map(|l| l.to_string()).collect();
     lines
         .iter()
         .map(|line| {
@@ -136,8 +135,8 @@ fn get_loop_path(
     path
 }
 
-fn part1(lines: &[String]) -> u64 {
-    let map = parse_input(lines);
+pub fn part1(input: &str) -> u64 {
+    let map = parse_input(input);
     let grid_size = (map.len(), map[0].len());
     let start = map
         .iter()
@@ -154,8 +153,8 @@ fn part1(lines: &[String]) -> u64 {
     loop_size.div_ceil(2)
 }
 
-fn part2(lines: &[String]) -> u64 {
-    let map = parse_input(lines);
+pub fn part2(input: &str) -> u64 {
+    let map = parse_input(input);
     let grid_size = (map.len(), map[0].len());
     let start = map
         .iter()
@@ -191,7 +190,7 @@ fn part2(lines: &[String]) -> u64 {
 }
 
 fn main() {
-    let lines = utils::get_day_input!();
+    let lines = crate::utils::get_day_input!();
     println!("Part 1: {}", part1(&lines));
     println!("Part 2: {}", part2(&lines));
 }
@@ -202,7 +201,7 @@ mod test {
 
     #[test]
     fn test_part1() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
         -L|F7
         7S-7|
         L|7||
@@ -215,7 +214,7 @@ mod test {
 
     #[test]
     fn test_part1_with_bounds() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
         7-F7-
         .FJ|7
         SJLL7
@@ -228,7 +227,7 @@ mod test {
 
     #[test]
     fn test_part2() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
         ...........
         .S-------7.
         .|F-----7|.
@@ -248,13 +247,13 @@ mod test {
 
     #[bench]
     fn bench_part1(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part1(&lines));
     }
 
     #[bench]
     fn bench_part2(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
+        let lines = crate::utils::get_day_input!();
         b.iter(|| part2(&lines));
     }
 }

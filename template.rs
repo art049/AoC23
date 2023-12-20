@@ -1,17 +1,15 @@
-#![feature(test)]
-
-fn part1(lines: &[String]) -> u64 {
+pub fn part1(input: &str) -> u64 {
     0
 }
 
-fn part2(lines: &[String]) -> u64 {
+pub fn part2(input: &str) -> u64 {
     0
 }
 
 fn main() {
-    let lines = utils::get_day_input!();
-    println!("Part 1: {}", part1(&lines));
-    println!("Part 2: {}", part2(&lines));
+    let input = crate::utils::get_day_input!();
+    println!("Part 1: {}", part1(&input));
+    println!("Part 2: {}", part2(&input));
 }
 
 #[cfg(test)]
@@ -20,7 +18,7 @@ mod test {
 
     #[test]
     fn test_part1() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
 
         "};
         let expected = 0;
@@ -29,7 +27,7 @@ mod test {
 
     #[test]
     fn test_part2() {
-        let input = utils::sample_input! {"
+        let input = crate::utils::sample_input! {"
 
         "};
         let expected = 0;
@@ -41,13 +39,13 @@ mod test {
 
     #[bench]
     fn bench_part1(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
-        b.iter(|| part1(&lines));
+        let input = crate::utils::get_day_input!();
+        b.iter(|| part1(&input));
     }
 
     #[bench]
     fn bench_part2(b: &mut Bencher) {
-        let lines = utils::get_day_input!();
-        b.iter(|| part2(&lines));
+        let input = crate::utils::get_day_input!();
+        b.iter(|| part2(&input));
     }
 }
